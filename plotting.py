@@ -1,8 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+# location "C:\Users\Owner\Desktop\Gesture Recognition\ghacks2025\data1.csv"
+# file = open("C:\\Users\\Owner\\Desktop\\Gesture Recognition\\ghacks2025\\data1.csv", "r")
+# print(file.read())
+
 arr = np.loadtxt("C:\\Users\\Owner\\Desktop\\Gesture Recognition\\ghacks2025\\data1.csv",
-                 delimiter=",", comments='#', skiprows=1)
+                 delimiter=",")
 print(arr)
 
 axis = plt.axes(projection='3d')
