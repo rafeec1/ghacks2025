@@ -7,3 +7,5 @@ data_array = df.to_numpy()
 print(data_array)
 print(data_array[5][5])
 
+
+
