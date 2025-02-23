@@ -3,6 +3,10 @@ import matplotlib.pyplot as plt
 from matplotlib import style
 import pandas as pd
 
+
+
+
+
 def average(data1):
     latitude_average_num = 0
     longitude_average_num = 0
@@ -43,24 +47,42 @@ for i in range(len(height)):
         lat.pop(i-adjusted)
         adjusted+=1
 
+
+def plotData():
+    
 axis = plt.axes(projection='3d')
     
 axis.scatter(lat, longg, height_copy, alpha = 0.5)
 
+# constants for plotting latitude
 min_lat = min(lat)
 max_lat = max(lat)
-lat_interval = (max_lat - min_lat) / 10
+lat_interval = (max_lat - min_lat) / 5
+lat_labels = np.arange(min_lat, max_lat, lat_interval)
 
+# constants for plotting longitude
 min_longg = min(longg)
 max_longg = max(longg)
-longg_interval = (max_longg - min_longg) / 10
+longg_interval = (max_longg - min_longg) / 5
+longg_labels = np.arange(min_longg, max_longg, longg_interval)
 
+# building the plot
 axis.set_title("3D plot of land")
-axis.set_xlabel("x-coordinate", labelpad=20)
-axis.set_ylabel("y-coordinate", labelpad=20)
-axis.set_zlabel("z-coordinate", labelpad=20)
+
+axis.set_xlabel("latitude", labelpad=20)
+axis.set_xticks(lat_labels)
+
+axis.set_ylabel("longitude", labelpad=20)
+axis.set_yticks(longg_labels)
+
+axis.set_zlabel("altitude (m)", labelpad=20)
 axis.set_zlim(1000, 1150)
-axis.set_yticks(np.arange(min_longg, max_longg, longg_interval))
-axis.set_xticks(np.arange(min_lat, max_lat, lat_interval))
+
+
+
+
+
+
+
 
 plt.show()
