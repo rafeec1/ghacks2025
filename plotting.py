@@ -95,11 +95,11 @@ def plot_data(lat, longg, height):
     axis.scatter(longg, lat, height, alpha = 0.5) # note longitude is the x axis on a map, latitude is the y axis, height is the z axis extending from the plane
 
     axis.set_title("3D plot of land")
-    axis.set_xlabel("longitude", labelpad=20)       # text is 20px from axis
+    axis.set_xlabel("longitude (degrees)", labelpad=20)       # text is 20px from axis
     axis.set_xticks(longg_labels)                   # takes in numpy array from above
     axis.xaxis.set_major_formatter(plt.FormatStrFormatter('%.4f'))          # so datapoints are with four decimal places
 
-    axis.set_ylabel("latitude", labelpad=20)        # same formatting as above
+    axis.set_ylabel("latitude (degrees)", labelpad=20)        # same formatting as above
     axis.set_yticks(lat_labels)
     axis.yaxis.set_major_formatter(plt.FormatStrFormatter('%.4f'))
 
