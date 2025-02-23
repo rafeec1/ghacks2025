@@ -121,5 +121,13 @@ def main(positional_data):
     cleaned_lat, cleaned_longg, cleaned_height = remove_outliers(lat, longg, height)
     plot_data(cleaned_lat, cleaned_longg, cleaned_height)
 
+import folium
+def map(lat,longg,height_copy):
+
+    m = folium.map(lat,longg,height_copy) 
+
 if __name__ == '__main__':
-    main("C:\\Users\\Owner\\Desktop\\Gesture Recognition\\ghacks2025\\LatLongHeightdata.csv")
+    #Input your positional data file location
+    location = input("Please enter your postional data ")
+    location.replace("\ ", "\\")
+    main("C:\\Users\\nafis\\OneDrive\\Documents\\GitHub\\ghacks2025\\LatLongHeightdata.csv")
