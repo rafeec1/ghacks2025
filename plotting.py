@@ -92,15 +92,19 @@ def plot_data(lat, longg, height):
 
     # building the plot
     axis = plt.axes(projection='3d')    
-    axis.scatter(lat, longg, height, alpha = 0.5)
+    axis.scatter(longg, lat, height, alpha = 0.5) # note longitude is the x axis on a map, latitude is the y axis, height is the z axis extending from the plane
 
     axis.set_title("3D plot of land")
-    axis.set_xlabel("latitude", labelpad=20)
-    axis.set_xticks(lat_labels)
-    axis.set_ylabel("longitude", labelpad=20)
-    axis.set_yticks(longg_labels)
+    axis.set_xlabel("longitude", labelpad=20)       # text is 20px from axis
+    axis.set_xticks(longg_labels)                   # takes in numpy array from above
+    axis.xaxis.set_major_formatter(plt.FormatStrFormatter('%.4f'))          # so datapoints are with four decimal places
+
+    axis.set_ylabel("latitude", labelpad=20)        # same formatting as above
+    axis.set_yticks(lat_labels)
+    axis.yaxis.set_major_formatter(plt.FormatStrFormatter('%.4f'))
+
     axis.set_zlabel("altitude (m)", labelpad=20)
-    axis.set_zlim(1000, 1150)
+    axis.set_zlim(1000, 1150)                       # restricts the z axis to show actual lack of elevation change
 
     plt.show()
 
