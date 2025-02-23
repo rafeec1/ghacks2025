@@ -29,15 +29,15 @@ def average(data1):
     average_longitude = []
     average_height = []
 
-    for i in range(0, len(data1)-10, 10):               # looping through every 10 lines from data1               
-        for j in range(10):                             
+    for i in range(0, len(data1)-1, 1):               # looping through every 10 lines from data1               
+        for j in range(2):                             
             latitude_average_num += data1[i+j][11]      # adds every consecutive latitude point up til 10
             longitude_average_num += data1[i+j][12]     # same for longitude and height
             height_average_num += data1[i+j][13]
          
-        average_latitude.append(latitude_average_num / 10)      # calculating mean latitude and adds it to the average lat list
-        average_longitude.append(longitude_average_num / 10)    # same for long and height
-        average_height.append(height_average_num / 10)
+        average_latitude.append(latitude_average_num / 1)      # calculating mean latitude and adds it to the average lat list
+        average_longitude.append(longitude_average_num / 1)    # same for long and height
+        average_height.append(height_average_num / 1)
 
         latitude_average_num = 0                        # resets sum to find the next mean values 
         longitude_average_num = 0
@@ -61,7 +61,7 @@ def remove_outliers(lat, longg, height):
     adjusted=0                                          # counter
     height_copy = height[:]                             # makes copy of height to remove values from
     for i in range(len(height)):                        # iterates over original height list
-        if (height[i] <=1105 or height[i]>= 1125):      # outliers defined here
+        if (height[i] <=0 or height[i]>= 11250000):      # outliers defined here
             height_copy.pop(i-adjusted)                 # pops the outlying point from each data list
             longg.pop(i-adjusted)
             lat.pop(i-adjusted)
@@ -100,7 +100,7 @@ def plot_data(lat, longg, height):
     axis.set_ylabel("longitude", labelpad=20)
     axis.set_yticks(longg_labels)
     axis.set_zlabel("altitude (m)", labelpad=20)
-    axis.set_zlim(1000, 1150)
+    # axis.set_zlim(1000, 1150)
 
     plt.show()
 
@@ -118,4 +118,4 @@ def main(positional_data):
     plot_data(cleaned_lat, cleaned_longg, cleaned_height)
 
 if __name__ == '__main__':
-    main("C:\\Users\\Owner\\Desktop\\Gesture Recognition\\ghacks2025\\LatLongHeightdata.csv")
+    main("C:\\Users\\Owner\\Desktop\\Gesture Recognition\\ghacks2025\\XYZdata.csv")
