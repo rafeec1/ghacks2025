@@ -28,14 +28,8 @@ def average(data1):
         height_average_num = 0
     return average_latitude, average_longitude, average_height
 
-
-
-
-
 df = pd.read_csv("C:\\Users\\Owner\\Desktop\\Gesture Recognition\\ghacks2025\\LatLongHeightdata.csv")
 data_array = df.to_numpy()
-
-
 
 
 lat, longg, height = average(data_array)
@@ -52,12 +46,21 @@ for i in range(len(height)):
 axis = plt.axes(projection='3d')
     
 axis.scatter(lat, longg, height_copy, alpha = 0.5)
+
+min_lat = min(lat)
+max_lat = max(lat)
+lat_interval = (max_lat - min_lat) / 10
+
+min_longg = min(longg)
+max_longg = max(longg)
+longg_interval = (max_longg - min_longg) / 10
+
 axis.set_title("3D plot of land")
-axis.set_xlabel("x-coordinate")
-axis.set_ylabel("y-coordinate")
-axis.set_zlabel("z-coordinate")
+axis.set_xlabel("x-coordinate", labelpad=20)
+axis.set_ylabel("y-coordinate", labelpad=20)
+axis.set_zlabel("z-coordinate", labelpad=20)
 axis.set_zlim(1000, 1150)
-# axis.set_yticks([])
-# plt.xticks(np.arange(51.079159,51.07916,0.000079159/10))
+axis.set_yticks(np.arange(min_longg, max_longg, longg_interval))
+axis.set_xticks(np.arange(min_lat, max_lat, lat_interval))
 
 plt.show()
