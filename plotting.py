@@ -72,12 +72,13 @@ def remove_outliers(lat, longg, height, elevation):
     
     return lat, longg, height_copy
 
-def plot_data(lat, longg, height):
+def plot_data(lat, longg, height, elevation):
     """ plots and shows a 3D scatter plot of given spacial data using matplotlib
         Parameters:
             lat (list): list of latitude data
             longg (list): list of longitude data
             height (list): list of height data
+            elevation (int): the user's current elevation in meters
         Returns:
             None 
     """
@@ -95,19 +96,20 @@ def plot_data(lat, longg, height):
 
     # building the plot
     axis = plt.axes(projection='3d')    
-    axis.scatter(longg, lat, height, alpha = 0.5) # note longitude is the x axis on a map, latitude is the y axis, height is the z axis extending from the plane
+    axis.scatter(longg, lat, height, alpha = 0.5)   # note longitude is the x axis on a map, 
+                                                    # latitude is the y axis, height is the z axis extending from the plane
 
     axis.set_title("3D plot of land")
-    axis.set_xlabel("longitude (degrees)", labelpad=20)       # text is 20px from axis
-    axis.set_xticks(longg_labels)                   # takes in numpy array from above
-    axis.xaxis.set_major_formatter(plt.FormatStrFormatter('%.4f'))          # so datapoints are with four decimal places
+    axis.set_xlabel("longitude (degrees)", labelpad=20)                 # text is 20px from axis
+    axis.set_xticks(longg_labels)                                       # takes in numpy array from above
+    axis.xaxis.set_major_formatter(plt.FormatStrFormatter('%.4f'))      # so datapoints are with four decimal places
 
-    axis.set_ylabel("latitude (degrees)", labelpad=20)        # same formatting as above
+    axis.set_ylabel("latitude (degrees)", labelpad=20)                  # same formatting as above
     axis.set_yticks(lat_labels)
     axis.yaxis.set_major_formatter(plt.FormatStrFormatter('%.4f'))
 
     axis.set_zlabel("altitude (m)", labelpad=20)
-    axis.set_zlim(1000, 1150)                       # restricts the z axis to show actual lack of elevation change
+    axis.set_zlim(elevation - 100, elevation + 100)                     # restricts the z axis to show actual lack of elevation change
 
     plt.show()
 
@@ -124,7 +126,7 @@ def main(positional_data):
     data_array = df.to_numpy()
     lat, longg, height = average(data_array)
     cleaned_lat, cleaned_longg, cleaned_height = remove_outliers(lat, longg, height, user_elevation)
-    plot_data(cleaned_lat, cleaned_longg, cleaned_height)
+    plot_data(cleaned_lat, cleaned_longg, cleaned_height, user_elevation)
 
 import folium
 def map(lat,longg,height_copy):
@@ -133,7 +135,7 @@ def map(lat,longg,height_copy):
 
 if __name__ == '__main__':
     #Input your positional data file location
-    location = input("Please enter your postional data: ")
+    location = input("Please enter your postional data, enter the full path, and must be a csv file: ")
     location.replace("\ ", "\\")
 
     main(location)
