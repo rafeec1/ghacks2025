@@ -44,12 +44,13 @@ def average(data1):
         height_average_num = 0
     return average_latitude, average_longitude, average_height
 
-def remove_outliers(lat, longg, height):
-    """ Takes in averaged data and removes any heights that are obvious outliers (less than 1105 or greater than 1125 m)
+def remove_outliers(lat, longg, height, elevation):
+    """ Takes in averaged data and removes any heights that are obvious outliers to the user's height
         Parameters:
             lat (list): list containing average latitudes
             longg (list): list containing average longitudes
             height (list): list containing average heights
+            elevation (int): the current elevation of the user
         
         returns:
             lat (list): 
@@ -59,9 +60,11 @@ def remove_outliers(lat, longg, height):
     """
 
     adjusted=0                                          # counter
+    elevation_low_cutoff = elevation - 10              # will reject height values more than 100m from the user's elevation
+    elevation_high_cutoff = elevation + 10
     height_copy = height[:]                             # makes copy of height to remove values from
     for i in range(len(height)):                        # iterates over original height list
-        if (height[i] <=1105 or height[i]>= 1125):      # outliers defined here
+        if (height[i] <= elevation_low_cutoff or height[i]>= elevation_high_cutoff):      # outliers defined here
             height_copy.pop(i-adjusted)                 # pops the outlying point from each data list
             longg.pop(i-adjusted)
             lat.pop(i-adjusted)
@@ -115,10 +118,12 @@ def main(positional_data):
         Returns:
             a matplotlib plot
     """
+    user_elevation = int(input("Please input your current elevation in meters, rounded to a whole number: "))
+
     df = pd.read_csv(positional_data)
     data_array = df.to_numpy()
     lat, longg, height = average(data_array)
-    cleaned_lat, cleaned_longg, cleaned_height = remove_outliers(lat, longg, height)
+    cleaned_lat, cleaned_longg, cleaned_height = remove_outliers(lat, longg, height, user_elevation)
     plot_data(cleaned_lat, cleaned_longg, cleaned_height)
 
 import folium
@@ -128,6 +133,7 @@ def map(lat,longg,height_copy):
 
 if __name__ == '__main__':
     #Input your positional data file location
-    location = input("Please enter your postional data ")
+    location = input("Please enter your postional data: ")
     location.replace("\ ", "\\")
-    main("C:\\Users\\nafis\\OneDrive\\Documents\\GitHub\\ghacks2025\\LatLongHeightdata.csv")
+
+    main(location)
