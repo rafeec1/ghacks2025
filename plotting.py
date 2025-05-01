@@ -1,7 +1,25 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import style
 import pandas as pd
+
+def average_height(data1):
+    """ Function takes in a numpy array of all collected data, and returns the average height of the user
+        Parameters:
+            data1 (numpy array): 
+                an array containing data collected from the Hexagon receiver using "log psrposa ontime 0.2"
+
+        Returns:
+            average_height (float): 
+                the average height of the user
+    """
+    height_average_num = 0
+    height_count = 0
+    for i in range(0, len(data1), 1):               # looping through every height data point              
+        height_average_num += data1[i][13]      # adds every consecutive height point
+        height_count += 1                         # counts the number of points
+    average_height = height_average_num / height_count      # calculating mean height
+    return average_height
+         
 
 def average(data1):
     """ Function takes in a numpy array of all collected data, and returns the average of every 10 data points to three dedicated lists
@@ -60,8 +78,8 @@ def remove_outliers(lat, longg, height, elevation):
     """
 
     adjusted=0                                          # counter
-    elevation_low_cutoff = elevation - 10              # will reject height values more than 100m from the user's elevation
-    elevation_high_cutoff = elevation + 10
+    elevation_low_cutoff = elevation - 15              # will reject height values more than 15m from the user's elevation
+    elevation_high_cutoff = elevation + 15             # same for high cutoff
     height_copy = height[:]                             # makes copy of height to remove values from
     for i in range(len(height)):                        # iterates over original height list
         if (height[i] <= elevation_low_cutoff or height[i]>= elevation_high_cutoff):      # outliers defined here
@@ -120,18 +138,15 @@ def main(positional_data):
         Returns:
             a matplotlib plot
     """
-    user_elevation = int(input("Please input your current elevation in meters, rounded to a whole number: "))
+    
 
     df = pd.read_csv(positional_data)
     data_array = df.to_numpy()
+    user_elevation = average_height(data_array)  # this function is not defined in the provided code, but it should return the user's elevation
+    print("User's elevation is: ", user_elevation, "m")  # prints the user's elevation
     lat, longg, height = average(data_array)
     cleaned_lat, cleaned_longg, cleaned_height = remove_outliers(lat, longg, height, user_elevation)
     plot_data(cleaned_lat, cleaned_longg, cleaned_height, user_elevation)
-
-import folium
-def map(lat,longg,height_copy):
-
-    m = folium.map(lat,longg,height_copy) 
 
 if __name__ == '__main__':
     #Input your positional data file location
